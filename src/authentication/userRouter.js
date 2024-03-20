@@ -44,7 +44,8 @@ UserRouter.post('/validate/', async (request, response) => {
     else {
 
         if (user_check.password === password) response.json({
-            status: true,message: "Valid User"
+            status: true,
+            message: "Valid User"
         })
 
         else response.json({
