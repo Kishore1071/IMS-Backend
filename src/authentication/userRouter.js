@@ -1,7 +1,15 @@
 import express from 'express'
 import { User } from './userModel.js'
+import crypto from 'crypto'
 
 const UserRouter = express.Router()
+
+UserRouter.get('/generate/key/', (request, response) => {
+
+    const key = crypto.randomBytes(64).toString('hex')
+
+    response.json(key)
+})
 
 
 UserRouter.post('/create/', async (request, response) => {
