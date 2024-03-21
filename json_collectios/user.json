@@ -1,0 +1,12 @@
+{
+    "username": "Kishore",
+    "password": "Kishore@123",
+    "firstname": "Kishore",
+    "lastname": "M",
+    "joined_date": "2024-01-01",
+    "birth_date": "1998-03-24",
+    "admin": true,
+    "manager": false,
+    "team_leader": false,
+    "employee": false
+}
