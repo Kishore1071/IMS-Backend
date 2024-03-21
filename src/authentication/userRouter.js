@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import { User } from './userModel.js'
 import crypto from 'crypto'
 
@@ -9,6 +9,16 @@ UserRouter.get('/generate/key/', (request, response) => {
     const key = crypto.randomBytes(64).toString('hex')
 
     response.json(key)
+})
+
+UserRouter.get('/all/', async (request, response) => {
+    
+    const all_users = await User.find({})
+
+    response.json({
+        status: true,
+        user_data: all_users
+    })
 })
 
 
