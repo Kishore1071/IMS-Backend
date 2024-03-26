@@ -25,5 +25,5 @@ export const authentication = (request, response, next) => {
 
 export const newAccessToken = user => {
 
-    return jwt.sign(user, process.env.ACCESS_TOKEN_KEY, {expiresIn: '15s'})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_KEY, {expiresIn: '30s'})
 }

@@ -41,3 +41,14 @@ const UserSchema = mongoose.Schema(
 )
 
 export const User = mongoose.model('User', UserSchema)
+
+const RefreshTokenSchema = mongoose.Schema(
+    {
+        refresh_token: {
+            type: String,
+            required: true
+        }
+    }
+)
+
+export const RefreshToken = mongoose.model('RefreshToken', RefreshTokenSchema)
