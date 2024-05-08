@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 import { User, RefreshToken } from './userModel.js'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
@@ -27,8 +27,6 @@ UserRouter.post('/create/', async (request, response) => {
         response.json("User with the usename already exists!")
     }
 })
-
-let refresh_tokens = []
 
 
 UserRouter.get('/all/', authentication,  async (request, response) => {
@@ -59,6 +57,7 @@ UserRouter.post('/validate/', async (request, response) => {
     const user_check = all_user.find(user => user.username === username)
 
     if (user_check === undefined) response.json({
+
         status: false,
         message: "Invalid Username"
     })
@@ -108,9 +107,7 @@ UserRouter.post('/token/', async(request, response) => {
 
     const all_refresh_tokens = await RefreshToken.find({refresh_token: refresh_token})
 
-    console.log(all_refresh_tokens, "all_refresh_tokens")
-
-    if (all_refresh_tokens.length > 0) {
+    if (all_refresh_tokens.length === 0) {
         
         return response.status(403).json("Invalid Token")
     }
@@ -146,6 +143,7 @@ UserRouter.post('/logout/', async (request, response) => {
 })
 
 UserRouter.post('/test/', authentication, async(request, response) => {
+    
     console.log(request.body)
     console.log(request.user)
 
