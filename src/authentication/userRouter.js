@@ -6,28 +6,6 @@ import { authentication, newAccessToken } from './authentication.js'
 
 const UserRouter = express.Router()
 
-let refresh_tokens = []
-
-
-UserRouter.get('/all/', authentication,  async (request, response) => {
-    
-    const all_users = await User.find({})
-
-    console.log(request.user, "User")
-
-    response.json({
-        status: true,
-        user_data: all_users
-    })
-})
-
-UserRouter.get('/generate/key/', (request, response) => {
-
-    const key = crypto.randomBytes(64).toString('hex')
-
-    response.json(key)
-})
-
 UserRouter.post('/create/', async (request, response) => {
 
     const all_user = await User.find({})
@@ -48,6 +26,28 @@ UserRouter.post('/create/', async (request, response) => {
     else {
         response.json("User with the usename already exists!")
     }
+})
+
+let refresh_tokens = []
+
+
+UserRouter.get('/all/', authentication,  async (request, response) => {
+    
+    const all_users = await User.find({})
+
+    console.log(request.user, "User")
+
+    response.json({
+        status: true,
+        user_data: all_users
+    })
+})
+
+UserRouter.get('/generate/key/', (request, response) => {
+
+    const key = crypto.randomBytes(64).toString('hex')
+
+    response.json(key)
 })
 
 UserRouter.post('/validate/', async (request, response) => {
@@ -106,15 +106,13 @@ UserRouter.post('/token/', async(request, response) => {
         return response.status(401).json("No token found")
     }
 
-    const all_refresh_tokens = await RefreshToken.find({})
+    const all_refresh_tokens = await RefreshToken.find({refresh_token: refresh_token})
 
-    console.log(all_refresh_tokens)
+    console.log(all_refresh_tokens, "all_refresh_tokens")
 
-    for (let x in all_refresh_tokens) {
-
-        if (x.refresh_token === refresh_token) {
-            return response.status(403).json("Invalid Token")
-        }
+    if (all_refresh_tokens.length > 0) {
+        
+        return response.status(403).json("Invalid Token")
     }
 
     jwt.verify(refresh_token, process.env.REFRESH_TOKEN_KEY, (error, user) => {
